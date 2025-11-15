@@ -1,0 +1,138 @@
+# ---------------------------------------------------
+# report_builder.py
+# Advanced Network Sniffer – HTML & JSON Report Builder
+# By Mahdi Zebardast Barzin
+# ---------------------------------------------------
+
+import json
+import os
+
+# -------------------------------------------------------------
+# 🇬🇧 Load analysis data from JSON file
+# 🇮🇷 بارگذاری نتایج تحلیل از فایل JSON
+# -------------------------------------------------------------
+def load_analysis(json_path="results/analysis.json"):
+    if not os.path.exists(json_path):
+        raise FileNotFoundError("❌ analysis.json not found!")
+    
+    with open(json_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+    
+    return data
+
+# -------------------------------------------------------------
+# 🇬🇧 Load HTML template for report
+# 🇮🇷 بارگذاری قالب HTML برای گزارش
+# -------------------------------------------------------------
+def load_template(template_path="templates/report_template.html"):
+    if not os.path.exists(template_path):
+        raise FileNotFoundError("❌ report_template.html not found!")
+
+    with open(template_path, "r", encoding="utf-8") as f:
+        html_template = f.read()
+    
+    return html_template
+
+# -------------------------------------------------------------
+# 🇬🇧 Build HTML report and save to results folder
+# 🇮🇷 ساخت گزارش HTML و ذخیره در پوشه results
+# -------------------------------------------------------------
+def build_html_report(analysis_data, output_path="results/traffic_report.html"):
+    template = load_template()
+    
+    # Replace placeholders with real data
+    html_content = template.replace("1734", str(analysis_data["total_packets"]))
+    
+    # Protocol usage
+    protocol_html = ""
+    for proto, count in analysis_data["protocol_usage"].items():
+        protocol_html += f"<li>{proto}: {count}</li>"
+    html_content = html_content.replace("<li>TCP: 1715</li>
+<li>UDP: 17</li>
+<li>null: 2</li>
+", protocol_html)
+    
+    # Top Source IPs
+    src_html = ""
+    for ip, count in analysis_data["top_source_ips"]:
+        src_html += f"<li>{ip}: {count}</li>"
+    html_content = html_content.replace("<li>62.210.92.65: 940</li>
+<li>192.168.1.5: 732</li>
+<li>50.7.87.86: 20</li>
+<li>50.7.87.82: 18</li>
+<li>185.160.60.100: 8</li>
+<li>146.75.121.91: 5</li>
+<li>142.54.189.110: 4</li>
+<li>34.107.243.93: 2</li>
+<li>178.22.122.100: 2</li>
+<li>50.7.85.221: 1</li>
+", src_html)
+    
+    # Top Destination IPs
+    dst_html = ""
+    for ip, count in analysis_data["top_destination_ips"]:
+        dst_html += f"<li>{ip}: {count}</li>"
+    html_content = html_content.replace("<li>192.168.1.5: 1000</li>
+<li>62.210.92.65: 660</li>
+<li>50.7.87.86: 20</li>
+<li>50.7.87.82: 16</li>
+<li>224.0.0.251: 9</li>
+<li>185.160.60.100: 7</li>
+<li>146.75.121.91: 5</li>
+<li>34.107.243.93: 4</li>
+<li>239.255.255.250: 4</li>
+<li>142.54.189.110: 4</li>
+", dst_html)
+    
+    # Top Ports
+    port_html = ""
+    for port, count in analysis_data["top_ports"]:
+        port_html += f"<li>{port}: {count}</li>"
+    html_content = html_content.replace("<li>48463: 1600</li>
+<li>6605: 1230</li>
+<li>3670: 171</li>
+<li>443: 100</li>
+<li>7944: 77</li>
+<li>5664: 57</li>
+<li>6767: 40</li>
+<li>3069: 40</li>
+<li>9584: 30</li>
+<li>10738: 25</li>
+", port_html)
+    
+    # Create results folder if not exists
+    os.makedirs("results", exist_ok=True)
+    
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(html_content)
+    
+    print(f"📁 HTML report saved: {output_path}")
+
+# -------------------------------------------------------------
+# 🇬🇧 Save analysis as JSON for backup
+# 🇮🇷 ذخیره نتایج تحلیل به صورت JSON به عنوان نسخه پشتیبان
+# -------------------------------------------------------------
+def save_json_report(analysis_data, output_path="results/traffic_report.json"):
+    os.makedirs("results", exist_ok=True)
+    
+    with open(output_path, "w", encoding="utf-8") as f:
+        json.dump(analysis_data, f, indent=4, ensure_ascii=False)
+    
+    print(f"📁 JSON report saved: {output_path}")
+
+
+# -------------------------------------------------------------
+# 🇬🇧 Script entry point for standalone usage
+# 🇮🇷 نقطه شروع اجرای اسکریپت
+# -------------------------------------------------------------
+if __name__ == "__main__":
+    print("🔍 Loading analysis data...")
+    data = load_analysis()
+    
+    print("📄 Building HTML report...")
+    build_html_report(data)
+    
+    print("💾 Saving JSON report backup...")
+    save_json_report(data)
+    
+    print("✨ Report generation completed!")
