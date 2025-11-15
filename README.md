@@ -89,7 +89,7 @@ pip install scapy
 ```bash
 python sniffer.py
 ```
-## Stop and Save: Ctrl + c
+## Stop and Save: Ctrl + C
 
 ## ▶️ 2. Run Traffic Analyzer | اجرای تحلیلگر ترافیک
 ```bash
@@ -126,3 +126,4 @@ python report_builder.py
 - GitHub: https://github.com/mahdizebardastbarzin  
 - Instagram: https://www.instagram.com/madresema.ir/  
 - Telegram: https://t.me/info_madresema
+
