@@ -117,6 +117,14 @@ python report_builder.py
 - برای خروج از Sniffer از **CTRL + C** استفاده کن.  
 
 ---
+## 🤝 Contributing
+
+Contributions are welcome! Please read our [Contributing Guidelines](https://github.com/mahdizebardastbarzin/mahdizebardastbarzin/blob/main/CONTRIBUTING.md) to get started.
+
+## 🤝 مشارکت
+
+مشارکت‌های شما خوش‌آمد است! لطفاً [راهنمای مشارکت](https://github.com/mahdizebardastbarzin/mahdizebardastbarzin/blob/main/CONTRIBUTING.md) را مطالعه کنید.
+
 
 # ⭐ Author | نویسنده  
 **Mahdi Zebardast Barzin**  
@@ -126,4 +134,5 @@ python report_builder.py
 - GitHub: https://github.com/mahdizebardastbarzin  
 - Instagram: https://www.instagram.com/madresema.ir/  
 - Telegram: https://t.me/info_madresema
+
 
